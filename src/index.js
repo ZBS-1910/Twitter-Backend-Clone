@@ -26,8 +26,11 @@ app.listen(3002, async () => {
   //   let gettweets=await tweetRepo.getAll();
   // console.log(gettweets)
   //const id = '681862e2e911f1ff5e725980';
-  const tweetId = '681862e2e911f1ff5e725980';
+  // const tweetId = '681862e2e911f1ff5e725980';
 
-  const deletebyid= await tweetRepo.deleteById(tweetId);
-  console.log(deletebyid,"deleted")
+  // const deletebyid= await tweetRepo.deleteById(tweetId);
+  // console.log(deletebyid,"deleted");
+
+
+  
 });

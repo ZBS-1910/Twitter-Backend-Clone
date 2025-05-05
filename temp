@@ -1,0 +1,6 @@
+
+db connecting key=  'mongodb+srv://zameer1910basha:9tpoVF6M1Sg1c9KM@twiterdb.4rnswpa.mongodb.net/'
+
+
+DB
+atlascloudDb ---> compas import the db-->cluster --> databases -->schema --> model-->collection--->documents

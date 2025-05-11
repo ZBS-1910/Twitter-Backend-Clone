@@ -1,36 +1,35 @@
-import express from 'express';
-import { connect } from './config/database.js';
-import Tweet from './models/tweet.js';
-import Hashtag from './models/hashtags.js';
-
-import TweetsRepository from '../repository/tweet-repository.js';
-
+const express = require('express');
+const { connect, ServerConfig } = require('./config');
+const apiroutes = require('./routes');
+const logger = require('./config/logger-config');
+const { TweetRepository } = require('./repositories');  // Changed from TweetsRepository
+const tweetRepo= new TweetRepository();  // Changed from TweetsRepository
 const app = express();
-const tweetRepo = new TweetsRepository();
 
-app.listen(3002, async () => {
-    console.log('Server is Up....');
-    // Establish MongoDB connection
-    await connect();
-    console.log('Mongoose is connected');
+// Middleware to parse JSON and URL-encoded bodies
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-    // Create instance of repository
-    // const tweets = await tweetRepo.create({
-    //   content: 'Learning Express with MongoDB!',
-    //   like: 0,
-    //   noOfRetweets: 0,
-    //   comment: 'This is my first tweet from the repository.'
-    // });
-    // console.log("tweets",tweets)
+// Use your API routes
+app.use('/api', apiroutes);
 
-  //   let gettweets=await tweetRepo.getAll();
-  // console.log(gettweets)
-  //const id = '681862e2e911f1ff5e725980';
-  // const tweetId = '681862e2e911f1ff5e725980';
-
-  // const deletebyid= await tweetRepo.deleteById(tweetId);
-  // console.log(deletebyid,"deleted");
+// Start the server and connect to MongoDB
+app.listen(ServerConfig.PORT, async () => {
+    try {
+        console.log(`Server is up and running on port ${ServerConfig.PORT}`);
+        logger.info("Successfully started the server");
+        await connect();  // Connect to MongoDB
+        
+        //->deleteById
+        // // Pass the ID directly as a string
+        // let tweet = await tweetRepo.deleteById({
+        //     "_id":"6820352c214eff696a13e4c8"
+        // });
+        // console.log("Succesfully deted the tweet ");
 
 
-  
+    } catch (error) {
+        console.error("Error:", error);
+        logger.error("Error occurred:", error);
+    }
 });

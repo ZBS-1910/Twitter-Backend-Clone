@@ -1,0 +1,38 @@
+import express from "express"
+import {connect} from "./config/database.js";
+import config from './config/server-config.js';
+import router from "./routes/index.js";
+import passport from "passport";
+import { passportAuth } from "./middlewares/jwt-middleware.js";
+
+const app = express();
+
+//middlewares
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+
+app.use(passport.initialize());
+passportAuth(passport)
+app.use("/api",router)
+
+app.listen(config.PORT, async ()=> {
+    console.log(`Server is running on port ${config.PORT}`);
+    // mongo db connection establishment
+    connect();
+     
+    console.log("Mongo DB connected");
+
+
+    // Tweet.create({
+    //     content: "This is my first tweet",
+    //     likes: 25,
+    //     noOfRetweets: 5,
+    //     comment: "This is my firts comment"
+    // })
+
+    // Hashtag.create({
+    //     text: "travel",
+    //     tweets: ['648583a1e1bdcba73b76c926']
+    // })
+    
+})
